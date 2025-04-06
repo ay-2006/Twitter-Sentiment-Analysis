@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Sentiment Analysis</title>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom right, #4a90e2, #145de8);
+            color: #333;
+        }
+
+ 
+        .container {
+            background-color: #ffffff;
+            width: 90%;
+            max-width: 650px;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+
+        h1 {
+            color: #333;
+            font-size: 26px;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            font-size: 15px;
+            color: #555;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 0.7rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            width: 100%;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            padding: 0.8rem;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #2378d3;
+            transform: scale(1.05);
+        }
+
+
+        h2 {
+            color: #555;
+            font-size: 20px;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            padding: 1.2rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: left;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        li:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .tweet-text {
+            font-size: 15px;
+            color: #444;
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+
+        .tweet-sentiment {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .positive {
+            color: #28a745;
+        }
+
+        .negative {
+            color: #dc3545;
+        }
+
+        .neutral {
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Twitter Sentiment Analysis</h1>
+        <form method="POST" action="/">
+            <label for="query">Enter a search query:</label>
+            <input type="text" id="query" name="query" required>
+            <button type="submit">Analyze</button>
+        </form>
+
+        {% if results %}
+            <h2>Results for: "{{ query }}"</h2>
+            <ul>
+                {% for result in results %}
+                    <li>
+                        <div class="tweet-text"><strong>Original Tweet:</strong> {{ result.original }}</div>
+                        <div class="tweet-text"><strong>Preprocessed Tweet:</strong> {{ result.preprocessed }}</div>
+                        <div class="tweet-sentiment {% if result.sentiment == 'Positive' %}positive{% elif result.sentiment == 'Negative' %}negative{% else %}neutral{% endif %}">
+                            <strong>Sentiment:</strong> {{ result.sentiment }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
